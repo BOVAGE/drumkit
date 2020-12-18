@@ -1,18 +1,24 @@
 let btnArr = document.querySelectorAll(".drum");
+
+// adds eventlistener to all the drum buttons to listen to clicks
 for (var i = 0; i < btnArr.length; i++) {
 	btnArr[i].addEventListener("click", function () { 
-		// this.style.color = "white";
+		// gets the content of the button clicked (w,a,s,d,j,k,l)
 		var drumLetter = this.innerHTML;
 		playSound(drumLetter);
+		respondToPress(drumLetter);
 	}); 
 }
 
+// adds eventlistener to the document to listen to keypress
 document.addEventListener("keypress", function (event) {
 	console.log(event);
 	playSound(event.key);
+	respondToPress(event.key);
 })
 
 function playSound (character) {
+	// checks whether the character is equal to (w,a,s,d,j,k,l) and plays the corresponding sound
 	switch (character) {
 			case "w":
 				var tom1 = new Audio("sounds/tom-1.mp3");
@@ -45,4 +51,14 @@ function playSound (character) {
 			default:
 				console.log(drumLetter)
 		}
+}
+
+function respondToPress (key) {
+	var activeButton = document.querySelector("." + key);
+	activeButton.classList.add("pressed");
+	
+	// delays the execution of the function for 200 milliseconds
+	setTimeout(() => {
+		activeButton.classList.remove("pressed");
+	}, 200);
 }
